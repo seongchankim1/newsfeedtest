@@ -4,7 +4,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,4 +25,17 @@ public class SignupRequestDto {
     private String refreshToken;
     private Timestamp created;
     private Timestamp updated;
+
+    public SignupRequestDto(String username, String password, String nickname, String name, String email, String introduce, String userStatus, String refreshToken, Timestamp created, Timestamp updated) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.name = name;
+        this.email = email;
+        this.introduce = introduce;
+        this.refreshToken = refreshToken;
+        this.created = created;
+        this.updated = updated;
+
+    }
 }

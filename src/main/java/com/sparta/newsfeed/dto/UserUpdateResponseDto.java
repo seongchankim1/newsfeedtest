@@ -19,7 +19,7 @@ public class UserUpdateResponseDto {
 
 
     public UserUpdateResponseDto(User user) {
-
+        this.name = user.getName();
         this.nickname = user.getNickname();
         this.email = user.getEmail();
         this.introduce = user.getIntroduce();

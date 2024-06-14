@@ -1,17 +1,14 @@
 package com.sparta.newsfeed.entity;
 
-import java.time.LocalDateTime;
-
 import com.sparta.newsfeed.dto.CommentCreateRequestDto;
 import com.sparta.newsfeed.dto.CommentUpdateRequestDto;
+
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
@@ -19,8 +16,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Table
 @NoArgsConstructor
 @Transactional
+public class Comment extends Timestamped {
 
-public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,64 +33,22 @@ public class Comment {
     private String comment;
 
     @Column(nullable = false)
-    private long good_counting;
-
+    private long goodCounting;
 
     @ManyToOne
     @JoinColumn(name = "newsfeed_id", nullable = true)
     private Newsfeed newsfeed;
-
 
     public Comment(CommentCreateRequestDto commentCreateRequest, Newsfeed newsfeed, String username) {
         this.username = username;
         this.comment = commentCreateRequest.getComment();
         this.newsfeed = newsfeed;
         this.nickname = commentCreateRequest.getNickname();
-        this.good_counting = 0;
+        this.goodCounting = 0;
     }
 
     public void update(CommentUpdateRequestDto requestDto, Newsfeed newsfeed) {
         this.comment = requestDto.getComment();
+        updateUpdateDate();
     }
-
-    @CreatedDate
-    @Column
-    private LocalDateTime writeDate = LocalDateTime.now();
-    private LocalDateTime likeCreated;
-
-    @LastModifiedDate
-    @Column
-    private LocalDateTime likeUpdated;
-    private LocalDateTime updateDate;
-
-    public void likeCreated(){
-        this.likeCreated = LocalDateTime.now();
-    }
-
-    public void likeUpdated() {
-        this.likeUpdated = LocalDateTime.now();
-    }
-
-    public void updateUpdateDate() {
-        this.updateDate = LocalDateTime.now();
-    }
-
-//    public Comment(String comment, String username, Newsfeed newsfeed) {
-//        this.comment = comment;
-//        this.nickname = username;
-//        this.newsfeed = newsfeed;
-
-//    }
 }
-//    public Comment(Newsfeed newsfeed, String comment, String nickname, String username,
-//                   long good_counting, long id, long newfeesId) {
-//        this.newsfeed = newsfeed;
-//        this.nickname = nickname;
-//        this.comment = comment;
-//        this.username = username;
-//        this.good_counting = good_counting;
-//        this.id = id;
-
-//        this.newfeesId = newfeesId;
-    //    }
-

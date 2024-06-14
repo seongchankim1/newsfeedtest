@@ -17,35 +17,37 @@ import lombok.Getter;
 public abstract class Timestamped {
 
 	@CreatedDate
-	@Column(updatable = false)
-	private LocalDateTime writeDate;    // 생성일자
+	@Column(updatable = false, nullable = false)
+	private LocalDateTime writeDate; // 생성일자
 
 	@Column(updatable = false)
-	private LocalDateTime likeCreated;  // 좋아요 생성일자
+	private LocalDateTime likeCreated; // 좋아요 생성일자
+
+	@LastModifiedDate
+	@Column(nullable = false)
+	private LocalDateTime updateDate; // 수정일자
+
+	@Column
+	private LocalDateTime statusChanged; // 상태변경시간
 
 	@LastModifiedDate
 	@Column
-	private LocalDateTime updateDate;    // 수정일자
-
-	private LocalDateTime status_changed;    // 상태변경시간
-
-	private LocalDateTime likeUpdated;   // 좋아요 수정일자
-	public void updateProfileChanged() {
-		this.updateDate = LocalDateTime.now();
-	}
+	private LocalDateTime likeUpdated; // 좋아요 수정일자
 
 	public void updateUpdateDate() {
 		this.updateDate = LocalDateTime.now();
 	}
 
-//	private LocalDateTime createDateTime;
-//
-//	@LastModifiedDate
-//	@Column(name = "last_modified_date_time")
-//	private LocalDateTime lastModifiedDateTime;
+	public void updateStatusChanged() {
+		this.statusChanged = LocalDateTime.now();
+	}
+
+	public void updateLikeCreated() {
+		this.likeCreated = LocalDateTime.now();
+	}
+
+	public void updateLikeUpdated() {
+		this.likeUpdated = LocalDateTime.now();
+	}
+
 }
-
-
-
-
-

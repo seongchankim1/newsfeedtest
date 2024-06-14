@@ -22,7 +22,7 @@ public class CommentResponseDto {
         this.id = comment.getId();
         this.title = comment.getNewsfeed().getTitle();
         this.comment = comment.getComment();
-        this.good_counting = comment.getGood_counting();
+        this.good_counting = comment.getGoodCounting();
     }
 
     public static CommentResponseDto toDto(Comment comment) {
@@ -30,7 +30,7 @@ public class CommentResponseDto {
                 comment.getId(),
                 comment.getNewsfeed().getTitle(),
                 comment.getComment(),
-                comment.getGood_counting()
+                comment.getGoodCounting()
         );
     }
 }

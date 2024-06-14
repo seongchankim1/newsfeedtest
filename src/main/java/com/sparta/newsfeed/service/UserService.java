@@ -44,7 +44,7 @@ public class UserService {
 		user.setEmail(requestDto.getEmail());
 		user.setIntroduce(requestDto.getIntroduce());
 		user.setRefreshToken(requestDto.getRefreshToken());
-		user.setUser_status(requestDto.getUser_status());
+		user.setUserStatus(requestDto.getUser_status());
 
 		// 비밀번호 암호화
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -69,19 +69,18 @@ public class UserService {
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
 
-			System.out.println("User Status: " + user.getUser_status());
+			System.out.println("User Status: " + user.getUserStatus());
 
-			if("탈퇴".equals(user.getUser_status())) {
+			if("탈퇴".equals(user.getUserStatus())) {
 				throw new IllegalArgumentException("탈퇴한 사용자입니다.");
 			}
 			if (!passwordEncoder.matches(password, user.getPassword())) {
 				throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 			}
-			if ("미인증".equals(user.getUser_status())) {
+			if ("미인증".equals(user.getUserStatus())) {
 				throw new IllegalArgumentException("이메일 인증을 먼저 해주세요.");
 			}
 			String accessToken = jwtUtil.createAccessToken(username);
-			user.setAccessToken(accessToken);// 액세스 토큰 생성
 			response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
 
 			String refreshToken = jwtUtil.createRefreshToken(username); // 리프레시 토큰 생성
@@ -104,7 +103,6 @@ public class UserService {
 					() -> new IllegalArgumentException("등록된 사용자가 없습니다.")
 			);
 			user.setRefreshToken(null);
-			user.setAccessToken(null);
 			userRepository.save(user);
 			return "로그아웃 성공! 토큰이 초기화되었습니다.";
 		} else {
@@ -122,7 +120,7 @@ public class UserService {
 			() -> new IllegalArgumentException("등록된 사용자가 없습니다.")
 		);
 
-		if (user.getUser_status().equals("탈퇴")) {
+		if (user.getUserStatus().equals("탈퇴")) {
 			throw new IllegalArgumentException("이미 탈퇴한 사용자입니다.");
 		}
 		String password = requestDto.getPassword();
@@ -130,7 +128,6 @@ public class UserService {
 			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		} else {
 			user.setRefreshToken(null);
-			user.setAccessToken(null);
 		}
 
 		user.updateStatus("탈퇴"); // 사용자 상태 업데이트
@@ -202,7 +199,7 @@ public class UserService {
 		if (!requestDto.getAuthKey().equals(user.getAuthKey())) {
 			throw new IllegalArgumentException("인증번호가 일치하지 않습니다.");
 		}
-		user.setUser_status("정상");
+		user.setUserStatus("정상");
 		if (LocalDateTime.now().isAfter(user.getVerifyTime())) {
 			throw new IllegalArgumentException("인증 시간이 초과되었습니다.");
 		}

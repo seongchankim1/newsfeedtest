@@ -35,9 +35,9 @@ public class LikeService {
     @Transactional
     public NewsfeedResponseDto toggleLike(String username, Long newsfeedId) {
         Newsfeed newsfeed = newsfeedRepository.findById(newsfeedId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물 입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물 입니다."));
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 
         if (newsfeed.getUsername().equals(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시물 입니다.");
@@ -47,15 +47,15 @@ public class LikeService {
 
         if(existLike.isPresent()) {
             likeRepository.delete(existLike.get());
-            newsfeed.likeUpdated();
+            newsfeed.updateLikeUpdated();
             newsfeed.setLikes(newsfeed.getLikes() - 1);
-        } else{
+        } else {
             Like like = new Like();
             like.setUser(user);
             like.setNewsfeed(newsfeed);
             like.setComment(null);
-            newsfeed.likeCreated();
-            newsfeed.likeUpdated();
+            newsfeed.updateLikeCreated();
+            newsfeed.updateLikeUpdated();
             likeRepository.save(like);
             newsfeed.setLikes(newsfeed.getLikes() + 1);
         }
@@ -66,11 +66,11 @@ public class LikeService {
 
     public CommentResponseDto commentLiked(String username, Long newsfeedId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 입니다."));
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
         Newsfeed newsfeed = newsfeedRepository.findById(newsfeedId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물 입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물 입니다."));
 
         if(comment.getUsername().equals(username)) {
             throw new IllegalArgumentException("본인이 작성한 게시물 입니다.");
@@ -80,19 +80,18 @@ public class LikeService {
 
         if(existLike.isPresent()) {
             likeRepository.delete(existLike.get());
-            comment.likeUpdated();
-            comment.setGood_counting(comment.getGood_counting() - 1);
-        } else{
+            comment.updateLikeUpdated();
+            comment.setGoodCounting(comment.getGoodCounting() - 1);
+        } else {
             Like like = new Like();
             like.setUser(user);
             like.setComment(comment);
             like.setNewsfeed(newsfeed);
-            comment.likeCreated();
-            comment.likeUpdated();
+            comment.updateLikeCreated();
+            comment.updateLikeUpdated();
             likeRepository.save(like);
-            comment.setGood_counting(comment.getGood_counting() + 1);
+            comment.setGoodCounting(comment.getGoodCounting() + 1);
         }
-
 
         Comment savedComment = commentRepository.save(comment);
         return new CommentResponseDto(savedComment);

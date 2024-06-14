@@ -1,5 +1,7 @@
 package com.sparta.newsfeed.dto;
 
+import com.sparta.newsfeed.entity.User;
+
 import lombok.Getter;
 
 @Getter
@@ -8,9 +10,9 @@ public class VerifyRequestDto {
 	private String password;
 	private String authKey;
 
-	public VerifyRequestDto(String username, String password, String authKey) {
-		this.username = username;
-		this.password = password;
-		this.authKey = authKey;
+	public VerifyRequestDto(User user) {
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+		this.authKey = user.getAuthKey();
 	}
 }
