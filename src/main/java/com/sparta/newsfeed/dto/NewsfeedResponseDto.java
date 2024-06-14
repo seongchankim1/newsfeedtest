@@ -17,18 +17,9 @@ public class NewsfeedResponseDto {
     }
 
     public NewsfeedResponseDto(Newsfeed newsfeed) {
-
         this.id = newsfeed.getId();
         this.title = newsfeed.getTitle();
         this.content = newsfeed.getContent();
         this.likes = newsfeed.getLikes();
-    }
-
-        public static NewsfeedResponseDto toDto(Newsfeed newsfeed) {
-        return new NewsfeedResponseDto(
-                newsfeed.getId(),
-                newsfeed.getTitle(),
-                newsfeed.getContent());
-
     }
 }
