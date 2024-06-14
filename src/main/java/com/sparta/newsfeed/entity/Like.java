@@ -33,4 +33,9 @@ public class Like{
 //    @Column
 //    private String ContentType;
 
+    public Like(User user, Newsfeed newsfeed,Comment comment) {
+        this.user = user;
+        this.newsfeed = newsfeed;
+        this.comment = comment;
+    }
 }
