@@ -1,8 +1,8 @@
 package com.sparta.newsfeed.service;
 
-import com.sparta.newsfeed.dto.CommentCreateRequest;
-import com.sparta.newsfeed.dto.CommentResponse;
-import com.sparta.newsfeed.dto.CommentUpdateRequest;
+import com.sparta.newsfeed.dto.CommentCreateRequestDto;
+import com.sparta.newsfeed.dto.CommentResponseDto;
+import com.sparta.newsfeed.dto.CommentUpdateRequestDto;
 import com.sparta.newsfeed.entity.Comment;
 import com.sparta.newsfeed.entity.Newsfeed;
 import com.sparta.newsfeed.jwt.JwtUtil;
@@ -33,8 +33,8 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponse createComment(Long id,
-                                         CommentCreateRequest requestDto,
+    public CommentResponseDto createComment(Long id,
+                                         CommentCreateRequestDto requestDto,
                                          HttpServletResponse response,
                                          HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
@@ -49,13 +49,13 @@ public class CommentService {
         comment.setNewsfeed(newsfeed);
         Comment saveComment = commentRepository.save(comment);
         System.out.println(id + "번 뉴스피드에 댓글이 등록되었습니다.");
-        return new CommentResponse(saveComment);
+        return new CommentResponseDto(saveComment);
     }
 
     @Transactional
-    public CommentResponse updateComment(Long id,
+    public CommentResponseDto updateComment(Long id,
                                          Long newsfeedId,
-                                         CommentUpdateRequest requestDto,
+                                         CommentUpdateRequestDto requestDto,
                                          HttpServletResponse response,
                                          HttpServletRequest request) {
         String token = jwtUtil.resolveToken(request);
@@ -73,7 +73,7 @@ public class CommentService {
         }
         comment.updateUpdateDate();
         comment.update(requestDto, newsfeed);
-        return new CommentResponse(comment);
+        return new CommentResponseDto(comment);
 
     }
 
@@ -95,10 +95,10 @@ public class CommentService {
         return id + "번 댓글이 삭제되었습니다.";
     }
 
-    public CommentResponse findComment(Long id) {
+    public CommentResponseDto findComment(Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("조회하신 댓글이 존재하지 않습니다."));
-        return new CommentResponse(comment);
+        return new CommentResponseDto(comment);
     }
 }
 

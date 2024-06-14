@@ -3,11 +3,11 @@ package com.sparta.newsfeed.dto;
 import lombok.Getter;
 
 @Getter
-public class CommentUpdateRequest {
+public class CommentUpdateRequestDto {
 
     private String comment;
 
-    public CommentUpdateRequest(Long id, String comment) {
+    public CommentUpdateRequestDto(Long id, String comment) {
         this.comment = comment;
     }
 }

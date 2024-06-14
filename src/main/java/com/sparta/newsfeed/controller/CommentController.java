@@ -1,8 +1,8 @@
 package com.sparta.newsfeed.controller;
 
-import com.sparta.newsfeed.dto.CommentCreateRequest;
-import com.sparta.newsfeed.dto.CommentResponse;
-import com.sparta.newsfeed.dto.CommentUpdateRequest;
+import com.sparta.newsfeed.dto.CommentCreateRequestDto;
+import com.sparta.newsfeed.dto.CommentResponseDto;
+import com.sparta.newsfeed.dto.CommentUpdateRequestDto;
 import com.sparta.newsfeed.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,23 +19,23 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public CommentResponse createComment(@PathVariable(value = "newsfeedId") Long newsfeedId,
-                                         @RequestBody CommentCreateRequest requestDto,
+    public CommentResponseDto createComment(@PathVariable(value = "newsfeedId") Long newsfeedId,
+                                         @RequestBody CommentCreateRequestDto requestDto,
                                          HttpServletResponse response,
                                          HttpServletRequest request) {
         return commentService.createComment(newsfeedId, requestDto, response, request);
     }
 
     @GetMapping("/{id}")
-    public CommentResponse findComments(@PathVariable(value = "id") Long id) {
+    public CommentResponseDto findComments(@PathVariable(value = "id") Long id) {
         return commentService.findComment(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CommentResponse> updateComment(
+    public ResponseEntity<CommentResponseDto> updateComment(
             @PathVariable Long id,
             @PathVariable(value = "newsfeedId") Long newsfeedId,
-            @RequestBody CommentUpdateRequest requestDto,
+            @RequestBody CommentUpdateRequestDto requestDto,
             HttpServletResponse response,
             HttpServletRequest request) {
         return ResponseEntity.ok().body(commentService.updateComment(id,newsfeedId, requestDto, response, request));

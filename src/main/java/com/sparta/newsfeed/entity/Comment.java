@@ -1,11 +1,9 @@
 package com.sparta.newsfeed.entity;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 
-import ch.qos.logback.core.net.SMTPAppenderBase;
-import com.sparta.newsfeed.dto.CommentCreateRequest;
-import com.sparta.newsfeed.dto.CommentUpdateRequest;
+import com.sparta.newsfeed.dto.CommentCreateRequestDto;
+import com.sparta.newsfeed.dto.CommentUpdateRequestDto;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
@@ -46,7 +44,7 @@ public class Comment {
     private Newsfeed newsfeed;
 
 
-    public Comment(CommentCreateRequest commentCreateRequest, Newsfeed newsfeed, String username) {
+    public Comment(CommentCreateRequestDto commentCreateRequest, Newsfeed newsfeed, String username) {
         this.username = username;
         this.comment = commentCreateRequest.getComment();
         this.newsfeed = newsfeed;
@@ -54,7 +52,7 @@ public class Comment {
         this.good_counting = 0;
     }
 
-    public void update(CommentUpdateRequest requestDto, Newsfeed newsfeed) {
+    public void update(CommentUpdateRequestDto requestDto, Newsfeed newsfeed) {
         this.comment = requestDto.getComment();
     }
 

@@ -1,6 +1,6 @@
 package com.sparta.newsfeed.service;
 
-import com.sparta.newsfeed.dto.CommentResponse;
+import com.sparta.newsfeed.dto.CommentResponseDto;
 import com.sparta.newsfeed.dto.NewsfeedResponseDto;
 import com.sparta.newsfeed.entity.Comment;
 import com.sparta.newsfeed.entity.Like;
@@ -64,7 +64,7 @@ public class LikeService {
         return new NewsfeedResponseDto(savedNewsfeed);
     }
 
-    public CommentResponse commentLiked(String username, Long newsfeedId, Long commentId) {
+    public CommentResponseDto commentLiked(String username, Long newsfeedId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글 입니다."));
         User user = userRepository.findByUsername(username)
@@ -95,6 +95,6 @@ public class LikeService {
 
 
         Comment savedComment = commentRepository.save(comment);
-        return new CommentResponse(savedComment);
+        return new CommentResponseDto(savedComment);
     }
 }

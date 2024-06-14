@@ -4,7 +4,6 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
-import com.sparta.newsfeed.dto.CommentUpdateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
