@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.newsfeed.config.WebSecurityConfig;
 import com.sparta.newsfeed.controller.CommentController;
@@ -60,7 +59,6 @@ import com.sparta.newsfeed.service.UserService;
 	}
 )
 class UserControllerTest {
-
 
 	private MockMvc mvc;
 	private Principal mockPrincipal;
@@ -103,7 +101,6 @@ class UserControllerTest {
 		mockPrincipal = new UsernamePasswordAuthenticationToken(mockUserDetails, "password", mockUserDetails.getAuthorities());
 	}
 
-
 	@Test
 	@DisplayName("UserController - 회원가입 테스트")
 	public void test1() throws Exception {
@@ -124,7 +121,7 @@ class UserControllerTest {
 	@DisplayName("UserController - 회원탈퇴 테스트")
 	void test2() throws Exception {
 		UserRequestDto userRequestDto = new UserRequestDto(
-			"testnickname","testname","testpassword","testemail","testintroduce",Timestamp.valueOf(LocalDateTime.now())
+			"testnickname", "testname", "testpassword", "testemail", "testintroduce", Timestamp.valueOf(LocalDateTime.now())
 		);
 
 		mvc.perform(delete("/api/user/withdraw")

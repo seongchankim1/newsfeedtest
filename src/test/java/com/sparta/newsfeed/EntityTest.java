@@ -1,7 +1,8 @@
 package com.sparta.newsfeed;
 
-import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 
 import com.sparta.newsfeed.dto.CommentCreateRequestDto;
 import com.sparta.newsfeed.dto.NewsfeedRequestDto;
@@ -60,11 +60,10 @@ public class EntityTest {
 		userRepository.save(testUser);
 
 		testNewsfeed = new Newsfeed(
-		new NewsfeedRequestDto(
-			testUser.getUsername(),
-			"test Title",
-			"test Content",
-			0),
+			new NewsfeedRequestDto(
+				testUser.getUsername(),
+				"test Title",
+				"test Content"),
 			testUser
 		);
 		newsfeedRepository.save(testNewsfeed);
@@ -78,7 +77,7 @@ public class EntityTest {
 		);
 		commentRepository.save(testComment);
 
-		testLike = new Like(testUser,testNewsfeed,testComment);
+		testLike = new Like(testUser, testNewsfeed, testComment);
 		likeRepository.save(testLike);
 	}
 

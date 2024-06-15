@@ -40,7 +40,6 @@ public class Newsfeed extends Timestamped {
 		this.title = newsfeedRequestDto.getTitle();
 		this.content = newsfeedRequestDto.getContent();
 		this.username = user.getUsername();
-		this.likes = newsfeedRequestDto.getLike();
 		this.user = user;
 	}
 

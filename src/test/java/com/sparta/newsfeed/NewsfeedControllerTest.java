@@ -1,11 +1,16 @@
 package com.sparta.newsfeed;
 
-import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.security.Principal;
 import java.util.Arrays;
@@ -19,16 +24,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.newsfeed.config.WebSecurityConfig;
 import com.sparta.newsfeed.controller.CommentController;
@@ -37,7 +39,6 @@ import com.sparta.newsfeed.controller.NewsfeedController;
 import com.sparta.newsfeed.controller.UserController;
 import com.sparta.newsfeed.dto.NewsfeedRequestDto;
 import com.sparta.newsfeed.dto.NewsfeedResponseDto;
-import com.sparta.newsfeed.dto.PagingRequestDto;
 import com.sparta.newsfeed.entity.User;
 import com.sparta.newsfeed.entity.UserRoleEnum;
 import com.sparta.newsfeed.mvc.MockSpringSecurityFilter;
@@ -99,7 +100,7 @@ class NewsfeedControllerTest {
 	@Test
 	@DisplayName("NewsfeedController - 뉴스피드 생성 테스트")
 	void test1() throws Exception {
-		NewsfeedRequestDto requestDto = new NewsfeedRequestDto("testuser", "Test Title", "Test Content", 0);
+		NewsfeedRequestDto requestDto = new NewsfeedRequestDto("testuser", "Test Title", "Test Content");
 
 		MvcResult result = mvc.perform(post("/api/newsfeed")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -143,8 +144,8 @@ class NewsfeedControllerTest {
 	@Test
 	@DisplayName("NewsfeedController - 뉴스피드 전체 조회 테스트")
 	void test3() throws Exception {
-		NewsfeedResponseDto responseDto1 = new NewsfeedResponseDto(1L,  "Test Title 1", "Test Content 1");
-		NewsfeedResponseDto responseDto2 = new NewsfeedResponseDto(2L,  "Test Title 2", "Test Content 2");
+		NewsfeedResponseDto responseDto1 = new NewsfeedResponseDto(1L, "Test Title 1", "Test Content 1");
+		NewsfeedResponseDto responseDto2 = new NewsfeedResponseDto(2L, "Test Title 2", "Test Content 2");
 		List<NewsfeedResponseDto> responseList = Arrays.asList(responseDto1, responseDto2);
 
 		when(newsfeedService.getAllNewsfeeds()).thenReturn(responseList);
@@ -173,11 +174,12 @@ class NewsfeedControllerTest {
 			assertEquals("Test Content 2", testResponseDto2.getContent());
 		}
 	}
+
 	@Test
 	@DisplayName("NewsfeedController - 뉴스피드 생성 후 수정 테스트")
 	void testCreateAndUpdateNewsfeed() throws Exception {
-		NewsfeedRequestDto createRequestDto = new NewsfeedRequestDto("testuser", "Title", "Content", 0);
-		NewsfeedRequestDto updateRequestDto = new NewsfeedRequestDto("testuser", "Updated Title", "Updated Content", 0);
+		NewsfeedRequestDto createRequestDto = new NewsfeedRequestDto("testuser", "Title", "Content");
+		NewsfeedRequestDto updateRequestDto = new NewsfeedRequestDto("testuser", "Updated Title", "Updated Content");
 
 		NewsfeedResponseDto createResponseDto = new NewsfeedResponseDto(1L, "Title", "Content");
 		NewsfeedResponseDto updateResponseDto = new NewsfeedResponseDto(1L, "Updated Title", "Updated Content");
@@ -218,7 +220,6 @@ class NewsfeedControllerTest {
 			assertEquals("Updated Content", updateTestResponseDto.getContent());
 		}
 	}
-
 
 	@Test
 	@DisplayName("NewsfeedController - 뉴스피드 삭제 테스트")

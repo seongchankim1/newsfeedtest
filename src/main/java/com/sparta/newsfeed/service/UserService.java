@@ -204,6 +204,7 @@ public class UserService {
 			throw new IllegalArgumentException("인증 시간이 초과되었습니다.");
 		}
 		userRepository.save(user);
+
 		return "인증 완료!";
 	}
 }

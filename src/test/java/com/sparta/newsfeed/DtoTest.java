@@ -21,9 +21,9 @@ import com.sparta.newsfeed.dto.UserResponseDto;
 import com.sparta.newsfeed.dto.UserUpdateRequestDto;
 import com.sparta.newsfeed.dto.UserUpdateResponseDto;
 import com.sparta.newsfeed.dto.VerifyRequestDto;
-import com.sparta.newsfeed.entity.User;
 import com.sparta.newsfeed.entity.Comment;
 import com.sparta.newsfeed.entity.Newsfeed;
+import com.sparta.newsfeed.entity.User;
 
 public class DtoTest {
 
@@ -40,7 +40,7 @@ public class DtoTest {
 		testUser.updateStatusChanged();
 
 		NewsfeedRequestDto newsfeedRequestDto = new NewsfeedRequestDto(testUser.getUsername(), "testTitle",
-			"testContent", 1);
+			"testContent");
 		testNewsfeed = new Newsfeed(newsfeedRequestDto, testUser);
 		testNewsfeed.updateUpdateDate();
 		testNewsfeed.updateLikeCreated();
@@ -54,7 +54,6 @@ public class DtoTest {
 		testComment.updateLikeCreated();
 		testComment.updateLikeUpdated();
 	}
-
 
 	@Test
 	@DisplayName("CommentCreateRequestDto 테스트")
@@ -114,13 +113,12 @@ public class DtoTest {
 		int like = testNewsfeed.getLikes();
 
 		// When
-		NewsfeedRequestDto request = new NewsfeedRequestDto(username, title, content, like);
+		NewsfeedRequestDto request = new NewsfeedRequestDto(username, title, content);
 
 		// Then
 		assertEquals(username, request.getUsername(), "이름이 일치하지 않습니다.");
 		assertEquals(title, request.getTitle(), "제목이 일치하지 않습니다.");
 		assertEquals(content, request.getContent(), "내용이 일치하지 않습니다.");
-		assertEquals(like, request.getLike(), "좋아요 수가 일치하지 않습니다.");
 	}
 
 	@Test
@@ -274,9 +272,9 @@ public class DtoTest {
 	@DisplayName("VerifyRequestDto 테스트")
 	public void test12() {
 		// Given
-		 String username = testUser.getUsername();
-		 String password = testUser.getPassword();
-		 String authKey = testUser.getAuthKey();
+		String username = testUser.getUsername();
+		String password = testUser.getPassword();
+		String authKey = testUser.getAuthKey();
 
 		// When
 		VerifyRequestDto request = new VerifyRequestDto(testUser);
